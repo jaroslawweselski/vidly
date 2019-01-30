@@ -158,6 +158,10 @@
     <Compile Include="Migrations\201901301454572_UpdateMembershipTypesByName.Designer.cs">
       <DependentUpon>201901301454572_UpdateMembershipTypesByName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901301536508_UpdateCustomerBirthday.cs" />
+    <Compile Include="Migrations\201901301536508_UpdateCustomerBirthday.Designer.cs">
+      <DependentUpon>201901301536508_UpdateCustomerBirthday.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\MembershipType.cs" />
@@ -239,6 +243,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901301454572_UpdateMembershipTypesByName.resx">
       <DependentUpon>201901301454572_UpdateMembershipTypesByName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901301536508_UpdateCustomerBirthday.resx">
+      <DependentUpon>201901301536508_UpdateCustomerBirthday.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
