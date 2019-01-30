@@ -4,23 +4,23 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
-using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
     public class MoviesController : Controller
     {
+        private MyDBContext _context;
+
+        public MoviesController()
+        {
+            _context = new MyDBContext();
+        }
+
         public ActionResult Index()
         {
-            var movies = new List<Movie>
-            {
-                new Movie { Name = "Shrek" },
-                new Movie { Name = "Wall-e" }
-            };
+            var movies = _context.Movies.ToList();
 
-            var viewModel = new MovieViewModel { Movies = movies };
-
-            return View(viewModel);
+            return View(movies);
         }
     }
 }
