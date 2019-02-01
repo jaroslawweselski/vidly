@@ -3,7 +3,7 @@ namespace Vidly.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class updatetables : DbMigration
+    public partial class StartFromScratch : DbMigration
     {
         public override void Up()
         {
@@ -12,9 +12,10 @@ namespace Vidly.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 255),
                         IsSubscribedToNewsletter = c.Boolean(nullable: false),
                         MembershipTypeId = c.Byte(nullable: false),
+                        Birthdate = c.DateTime(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.MembershipTypes", t => t.MembershipTypeId, cascadeDelete: true)
@@ -28,6 +29,16 @@ namespace Vidly.Migrations
                         SignupFee = c.Short(nullable: false),
                         DurationInMonths = c.Byte(nullable: false),
                         DiscountRate = c.Byte(nullable: false),
+                        Name = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.Genres",
+                c => new
+                    {
+                        Id = c.Byte(nullable: false),
+                        Name = c.String(nullable: false, maxLength: 255),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -36,17 +47,26 @@ namespace Vidly.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
+                        Name = c.String(nullable: false, maxLength: 255),
+                        GenreId = c.Byte(nullable: false),
+                        DateAdded = c.DateTime(nullable: false),
+                        ReleaseDate = c.DateTime(nullable: false),
+                        NumberInStock = c.Byte(nullable: false),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Genres", t => t.GenreId, cascadeDelete: true)
+                .Index(t => t.GenreId);
             
         }
         
         public override void Down()
         {
+            DropForeignKey("dbo.Movies", "GenreId", "dbo.Genres");
             DropForeignKey("dbo.Customers", "MembershipTypeId", "dbo.MembershipTypes");
+            DropIndex("dbo.Movies", new[] { "GenreId" });
             DropIndex("dbo.Customers", new[] { "MembershipTypeId" });
             DropTable("dbo.Movies");
+            DropTable("dbo.Genres");
             DropTable("dbo.MembershipTypes");
             DropTable("dbo.Customers");
         }
